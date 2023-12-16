@@ -80,13 +80,13 @@ elif page == pages[2]:
 elif page == pages[3]:
     st.write("### Modélisation")
 
-    df_prep = pd.read_csv("diabetes.csv")
+    #df_prep = pd.read_csv("diabetes.csv")
 
     x = df.drop("Outcome", axis=1).values
     y = df.Outcome.values
 
-    standar = StandardScaler()
-    x = standar.fit_transform(x)
+    standard = StandardScaler()
+    x = standard.fit_transform(x)
 
     # spliter les donnees
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
@@ -102,7 +102,8 @@ elif page == pages[3]:
     y_pred_rf = svm.predict(x_val)
     y_pred_knn = knn.predict(x_val)
 
-    model_choisi = st.selectbox(label="Modèle", options=['Logistique Regression', 'SVM', 'KNN'])
+    model_choisi = st.selectbox("Modèle", options=['Logistique Regression', 'SVM', 'KNN'])
+
 
     def train_model(model_choisi):
         if model_choisi == 'Logistique Regression':
@@ -130,7 +131,7 @@ if st.button("Faire une prédiction") and user_input:
         user_input_array = np.array([float(x.strip()) for x in user_input.split(',')]).reshape(1, -1)
 
         # Normaliser les caractéristiques de l'utilisateur
-        user_input_array = standar.transform(user_input_array)
+        user_input_array = standard.transform(user_input_array)
 
         # Faire la prédiction avec le modèle de régression logistique
         prediction = reg.predict(user_input_array)
