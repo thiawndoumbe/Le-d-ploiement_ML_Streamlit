@@ -1,3 +1,5 @@
+
+
 import matplotlib
 matplotlib.use('Agg')
 import pandas as pd
@@ -93,6 +95,8 @@ elif page == pages[3]:
     reg = joblib.load("model_logisticR")
     svm = joblib.load("model_svm")
     knn = joblib.load("model_knn")
+    st.write("Modèles chargés avec succès.")
+
 
     y_pred_reg = reg.predict(x_val)
     y_pred_rf = svm.predict(x_val)
