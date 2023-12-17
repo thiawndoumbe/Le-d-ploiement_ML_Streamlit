@@ -63,8 +63,8 @@ elif page == pages[2]:
     plt.title("Matrice de corrélation des variables du dataframe")
     st.write(fig3)
 
-    with pd.option_context():
-        fig = sns.displot(x='Outcome', data=df, kde=True)
+    #with pd.option_context():
+    fig = sns.displot(x='Outcome', data=df, kde=True)
     plt.title("Distribution de la variable cible Outcome")
     st.pyplot(fig)
 
