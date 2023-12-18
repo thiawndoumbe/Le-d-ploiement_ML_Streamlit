@@ -117,6 +117,21 @@ elif page == pages[3]:
         return f1, acc
 
     st.write("Le Score F1  et le taux de Précision (accuracy)", train_model(model_choisi))
+    st.success("La régression logistique est le modèle le plus performant 🎉")
+    # Prédictions
+    x_test_3 = x_test[:10]
+    y_test_3 = reg.predict(x_test_3)
+
+# Créer un DataFrame pour les prédictions
+    predictions_df = pd.DataFrame({
+        'Personne': [f"Personne {i}" for i in range(0, 10)],
+        'Statut': ['Diabétique' if status == 0 else 'Non-diabétique' for status in y_test_3]
+})
+
+# Afficher le DataFrame dans Streamlit
+st.dataframe(predictions_df)
+
+
 
     # Interface utilisateur Streamlit
 st.title("Prédiction du Diabète")
