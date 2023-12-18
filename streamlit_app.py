@@ -22,7 +22,7 @@ df = pd.read_csv("diabetes.csv")
 st.dataframe(df.head())
 
 st.sidebar.title("Sommaire🎉")
-pages = ["Contexte du projet", "Exploration des données", "Analyse de données", "Modélisation"]
+pages = ["Contexte du projet❄️", "Exploration des données❄️", "Analyse de données❄️", "Modélisation 🎈"]
 
 page = st.sidebar.radio("Aller vers la page :", pages)
 
