@@ -91,7 +91,7 @@ elif page == pages[3]:
     # spliter les donnees
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
     x_val, x_test, y_val, y_test = train_test_split(x_test, y_test, test_size=0.5, random_state=42)
-
+    print("C:\\Users\\hp\\Desktop\\ML\\Group 2\\Le-d-ploiement_ML_Streamlit\\model_logisticR:", "model_logisticR.pkl")
     reg = joblib.load("model_logisticR.pkl")
     svm = joblib.load("model_svm.pkl")
     knn = joblib.load("model_knn.pkl")
