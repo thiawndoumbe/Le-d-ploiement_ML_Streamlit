@@ -118,7 +118,7 @@ elif page == pages[3]:
 
     st.write("Le Score F1  et le taux de Précision (accuracy)", train_model(model_choisi))
     st.success("La régression logistique est le modèle le plus performant 🎉")
-    st.text("")
+    st.text(" prédictions sur les 10 premières lignes du jeu de test à l'aide d'un modèle de régression logistique")
 # Prédictions
     x_test_3 = x_test[:10]
     y_test_3 = reg.predict(x_test_3)
