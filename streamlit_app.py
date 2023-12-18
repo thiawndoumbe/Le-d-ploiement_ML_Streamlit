@@ -94,15 +94,15 @@ elif page == pages[3]:
     print("C:\\Users\\hp\\Desktop\\ML\\Group 2\\Le-d-ploiement_ML_Streamlit\\model_logisticR:", "model_logisticR.pkl")
     reg = joblib.load("model_logisticR.pkl")
     svm = joblib.load("model_svm.pkl")
-    knn = joblib.load("model_knn.pkl")
+    #knn = joblib.load("model_knn.pkl")
     st.write("Modèles chargés avec succès.")
 
 
     y_pred_reg = reg.predict(x_val)
     y_pred_rf = svm.predict(x_val)
-    y_pred_knn = knn.predict(x_val)
+    #y_pred_knn = knn.predict(x_val)
 
-    model_choisi = st.selectbox("Modèle", options=['Logistique Regression', 'SVM', 'KNN'])
+    model_choisi = st.selectbox("Modèle", options=['Logistique Regression', 'SVM'])
 
 
     def train_model(model_choisi):
@@ -110,8 +110,8 @@ elif page == pages[3]:
             y_pred = y_pred_reg
         elif model_choisi == 'SVM':
             y_pred = y_pred_rf
-        elif model_choisi == 'KNN':
-            y_pred = y_pred_knn
+        #elif model_choisi == 'KNN':
+            #y_pred = y_pred_knn
         f1 = f1_score(y_pred, y_val)
         acc = accuracy_score(y_pred, y_val)
         return f1, acc
