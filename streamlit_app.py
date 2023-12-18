@@ -135,27 +135,28 @@ elif page == pages[3]:
 
 
     # Interface utilisateur Streamlit
-st.title("Prédiction du Diabète")
+if page == pages[3]:      
+    st.title("Prédiction du Diabète")
 
 # Champ de saisie pour l'utilisateur
-user_input = st.text_input("Entrez les caractéristiques pour faire une prédiction (séparées par des virgules):")
+    user_input = st.text_input("Entrez les caractéristiques pour faire une prédiction (séparées par des virgules):")
 
 # Bouton pour déclencher la prédiction
-if st.button("Faire une prédiction") and user_input:
-    try:
+    if st.button("Faire une prédiction") and user_input:
+        try:
         # Convertir l'entrée utilisateur en tableau NumPy
-        user_input_array = np.array([float(x.strip()) for x in user_input.split(',')]).reshape(1, -1)
+            user_input_array = np.array([float(x.strip()) for x in user_input.split(',')]).reshape(1, -1)
 
         # Normaliser les caractéristiques de l'utilisateur
-        user_input_array = standard.transform(user_input_array)
+            user_input_array = standard.transform(user_input_array)
 
         # Faire la prédiction avec le modèle de régression logistique
-        prediction = reg.predict(user_input_array)
+            prediction = reg.predict(user_input_array)
 
         # Afficher le résultat de la prédiction pour cette personne
-        st.write(f"Résultat de la prédiction : {'Diabétique' if prediction == 1 else 'Non-diabétique'}")
-    except ValueError:
-        st.write("Veuillez entrer des valeurs numériques correctes séparées par des virgules.")
+            st.write(f"Résultat de la prédiction : {'Diabétique' if prediction == 1 else 'Non-diabétique'}")
+        except ValueError:
+            st.write("Veuillez entrer des valeurs numériques correctes séparées par des virgules.")
 
 
 
