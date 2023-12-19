@@ -1,5 +1,4 @@
 
-
 import matplotlib
 matplotlib.use('Agg')
 import pandas as pd
@@ -85,8 +84,10 @@ elif page == pages[3]:
     x = df.drop("Outcome", axis=1).values
     y = df.Outcome.values
 
+    # Normaliser les données
     standard = StandardScaler()
-    x = standard.fit_transform(x)
+    x= standard.fit_transform(x)
+    joblib.dump(standard, 'standard.pkl')
 
     # spliter les donnees
     x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_state=42)
@@ -94,9 +95,9 @@ elif page == pages[3]:
     print("C:\\Users\\hp\\Desktop\\ML\\Group 2\\Le-d-ploiement_ML_Streamlit\\model_logisticR:", "model_logisticR.pkl")
     reg = joblib.load("model_logisticR.pkl")
     svm = joblib.load("model_svm.pkl")
-    #knn = joblib.load("model_knn.pkl")
-    st.write("Modèles chargés avec succès.")
+    standard= joblib.load('standard.pkl')  
 
+    st.write("Modèles chargés avec succès.")
 
     y_pred_reg = reg.predict(x_val)
     y_pred_rf = svm.predict(x_val)
@@ -110,8 +111,6 @@ elif page == pages[3]:
             y_pred = y_pred_reg
         elif model_choisi == 'SVM':
             y_pred = y_pred_rf
-        #elif model_choisi == 'KNN':
-            #y_pred = y_pred_knn
         f1 = f1_score(y_pred, y_val)
         acc = accuracy_score(y_pred, y_val)
         return f1, acc
@@ -132,31 +131,41 @@ elif page == pages[3]:
 # Afficher le DataFrame dans Streamlit
     st.dataframe(predictions_df)
 
-
-
-    # Interface utilisateur Streamlit
 if page == pages[3]:      
     st.title("Prédiction du Diabète")
+    # Champs de saisie pour l'utilisateur
+    Pregnancies = st.slider('Nombre de grossesses', min_value=0, max_value=20)
+    Glucose = st.slider('Glucose', min_value=0, max_value=199)
+    BloodPressure = st.slider('Pression Arterielle', min_value=0, max_value=122)
+    SkinThickness = st.slider('Epaisseur de la peau', min_value=0, max_value=99)
+    Insulin = st.slider('Insulline', min_value=0, max_value=846)
+    BMI = st.number_input('IMC', min_value=0.0, max_value=67.1)
+    DiabetesPedigreeFunction = st.number_input('Pourcentage du diabete', min_value=0.0, max_value=2.5)
+    Age = st.slider('Âge', min_value=21, max_value=86)
+    
+    # Créer un tableau NumPy avec toutes les caractéristiques
+    user_input = np.array([[Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age]])
 
-# Champ de saisie pour l'utilisateur
-    user_input = st.text_input("Entrez les caractéristiques pour faire une prédiction (séparées par des virgules):")
-
-# Bouton pour déclencher la prédiction
-    if st.button("Faire une prédiction") and user_input:
+    # Vérifier si l'utilisateur veut faire une prédiction
+    if st.button("Faire une prédiction"):
         try:
-        # Convertir l'entrée utilisateur en tableau NumPy
-            user_input_array = np.array([float(x.strip()) for x in user_input.split(',')]).reshape(1, -1)
+            # Normaliser les caractéristiques de l'utilisateur avec le même StandardScaler
+            user_input_array = standard.transform(user_input)
 
-        # Normaliser les caractéristiques de l'utilisateur
-            user_input_array = standard.transform(user_input_array)
-
-        # Faire la prédiction avec le modèle de régression logistique
+            # Faire la prédiction avec le modèle de régression logistique
             prediction = reg.predict(user_input_array)
-
-        # Afficher le résultat de la prédiction pour cette personne
+    
+            # Afficher le résultat de la prédiction pour cette personne
             st.write(f"Résultat de la prédiction : {'Diabétique' if prediction == 1 else 'Non-diabétique'}")
-        except ValueError:
-            st.write("Veuillez entrer des valeurs numériques correctes séparées par des virgules.")
+        except ValueError as e:
+            st.write(f"Erreur lors de la prédiction : {e}")
+
+
+
+
+
+
+
 
 
 
