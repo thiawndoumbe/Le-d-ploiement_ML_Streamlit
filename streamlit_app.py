@@ -95,15 +95,17 @@ elif page == pages[3]:
     print("C:\\Users\\hp\\Desktop\\ML\\Group 2\\Le-d-ploiement_ML_Streamlit\\model_logisticR:", "model_logisticR.pkl")
     reg = joblib.load("model_logisticR.pkl")
     svm = joblib.load("model_svm.pkl")
+    KNN =  joblib.load("neigh.pkl")
     standard= joblib.load('standard.pkl')  
 
     st.write("Modèles chargés avec succès.")
 
     y_pred_reg = reg.predict(x_val)
     y_pred_rf = svm.predict(x_val)
+    y_pred_kn = KNN.predict(x_val)
     #y_pred_knn = knn.predict(x_val)
 
-    model_choisi = st.selectbox("Modèle", options=['Logistique Regression', 'SVM'])
+    model_choisi = st.selectbox("Modèle", options=['Logistique Regression', 'SVM','KNN'])
 
 
     def train_model(model_choisi):
@@ -111,6 +113,8 @@ elif page == pages[3]:
             y_pred = y_pred_reg
         elif model_choisi == 'SVM':
             y_pred = y_pred_rf
+        elif model_choisi== 'KNN':
+            y_pred = y_pred_kn  
         f1 = f1_score(y_pred, y_val)
         acc = accuracy_score(y_pred, y_val)
         return f1, acc
@@ -120,7 +124,7 @@ elif page == pages[3]:
     st.text(" prédictions sur les 10 premières lignes du jeu de test à l'aide d'un modèle de régression logistique")
 # Prédictions
     x_test_3 = x_test[:10]
-    y_test_3 = reg.predict(x_test_3)
+    y_test_3 = KNN.predict(x_test_3)
 
 # Créer un DataFrame pour les prédictions
     predictions_df = pd.DataFrame({
@@ -153,7 +157,7 @@ if page == pages[3]:
             user_input_array = standard.transform(user_input)
 
             # Faire la prédiction avec le modèle de régression logistique
-            prediction = reg.predict(user_input_array)
+            prediction = KNN.predict(user_input_array)
     
             # Afficher le résultat de la prédiction pour cette personne
             st.write(f"Résultat de la prédiction : {'Diabétique' if prediction == 1 else 'Non-diabétique'}")
