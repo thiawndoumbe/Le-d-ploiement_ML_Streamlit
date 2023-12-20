@@ -125,7 +125,7 @@ elif page == pages[3]:
 # Créer un DataFrame pour les prédictions
     predictions_df = pd.DataFrame({
         'Personne': [f"Personne {i}" for i in range(0, 10)],
-        'Statut': ['Diabétique' if status == 0 else 'Non-diabétique' for status in y_test_3]
+        'Statut': ['Diabétique' if status == 1 else 'Non-diabétique' for status in y_test_3]
 })
 
 # Afficher le DataFrame dans Streamlit
